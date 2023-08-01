@@ -2,7 +2,10 @@ name: .Net Test
 
 on:
   workflow_call:
-
+    inputs:
+      line_rate_thresholds:
+        required: true
+        type: string
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -30,7 +33,7 @@ jobs:
         hide_complexity: true
         indicators: true
         output: both
-        thresholds: '0 80'
+        thresholds: ${{ inputs.line_rate_thresholds }}
 
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
