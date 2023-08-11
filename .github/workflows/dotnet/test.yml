@@ -6,6 +6,7 @@ on:
       line_rate_thresholds:
         required: true
         type: string
+
 jobs:
   test:
     runs-on: ubuntu-latest
