@@ -1,0 +1,38 @@
+name: 'EF Database Migration'
+
+on:
+  workflow_call:
+
+inputs:
+  connection-string: 
+    required: true
+    type: string
+  startup-project:
+    description: 'path to .csproj file with startup'
+    required: true
+    type: string
+  project:
+    description: 'path to .csproj file with migrations and db-context'
+    required: true
+    type: string
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    name: Migrate database
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install EF Core CLI
+      run: dotnet tool install dotnet-ef --global
+
+    - name: Update database
+      run: |
+        dotnet ef database update --project ${{ inputs.project }} --startup-project ${{ inputs.startup-project }} --connection ${{ inputs.connection-string }}
