@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{890BF32E-F86B-4A1A-84F5-D2D150359480}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{9BA60AF0-83B0-4236-B9EF-E5D82A82E6CD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet_build.yml = .github\workflows\dotnet_build.yml
+		.github\workflows\docker_build_push.yml = .github\workflows\docker_build_push.yml
+		.github\workflows\dotnet_test.yml = .github\workflows\dotnet_test.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{890BF32E-F86B-4A1A-84F5-D2D150359480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890BF32E-F86B-4A1A-84F5-D2D150359480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890BF32E-F86B-4A1A-84F5-D2D150359480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890BF32E-F86B-4A1A-84F5-D2D150359480}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3949DEE-CD86-4C15-8B99-DD467C591F4E}
+	EndGlobalSection
+EndGlobal
