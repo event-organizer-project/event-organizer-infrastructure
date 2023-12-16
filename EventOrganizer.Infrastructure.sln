@@ -7,8 +7,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{9BA60AF0-83B0-4236-B9EF-E5D82A82E6CD}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet_build.yml = .github\workflows\dotnet_build.yml
+		.github\workflows\aws_eb_push.yml = .github\workflows\aws_eb_push.yml
 		.github\workflows\docker_build_push.yml = .github\workflows\docker_build_push.yml
+		.github\workflows\dotnet_build.yml = .github\workflows\dotnet_build.yml
 		.github\workflows\dotnet_test.yml = .github\workflows\dotnet_test.yml
 	EndProjectSection
 EndProject
