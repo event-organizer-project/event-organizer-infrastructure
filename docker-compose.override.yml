@@ -6,41 +6,44 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionStrings__DefaultConnection=${DATABASE_CONNECTION}
+      - Authority=https://host.docker.internal:7010
+      - UseCustomSslCertificates=true
     ports:
       - "5001:80"
       - "7001:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./src:/app/certificates
 
   eo-identity:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - UseCustomSslCertificates=true
     ports:
       - "5010:80"
       - "7010:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./src:/app/certificates
 
   eo-web-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionStrings__DefaultConnection=${DATABASE_CONNECTION}
+      - WebOptions__Authority=https://host.docker.internal:7010
+      - WebOptions__SchedulerClient=https://host.docker.internal:7001
+      - WebOptions__UseCustomSslCertificates=true
     ports:
       - "5000:80"
       - "7000:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./src:/app/certificates
 
   eo-web-client :
     build:
       context: .
-      target: development
-    volumes:
-      - ./src:/app/src
+    environment:
+      - REACT_APP_IDENTITY_SERVER_URL=https://host.docker.internal:7010
+      - REACT_APP_WEB_API_URL=https://host.docker.internal:7000
     ports:
       - 3000:3000
