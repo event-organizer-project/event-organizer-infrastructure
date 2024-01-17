@@ -2,17 +2,17 @@ version: '3.4'
 
 services:
   eo-scheduler:
-    image: "myurtsevich/eo-scheduler"
+    image: myurtsevich/eo-scheduler:latest
     container_name: eo-scheduler
 
   eo-identity:
-    image: "myurtsevich/eo-identity"
+    image: myurtsevich/eo-identity:latest
     container_name: eo-identity
 
   eo-web-api:
-    image: "myurtsevich/eo-web-api"
+    image: myurtsevich/eo-web-api:latest
     container_name: eo-web-api
 
   eo-web-client:
-    image: "myurtsevich/eo-web-client"
+    image: myurtsevich/eo-web-client:latest
     container_name: eo-web-client
