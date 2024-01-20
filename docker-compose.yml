@@ -1,18 +1,29 @@
 version: '3.4'
 
 services:
-  eo-scheduler:
-    image: myurtsevich/eo-scheduler:latest
-    container_name: eo-scheduler
+  eo-web-api:
+    image: myurtsevich/eo-web-api:latest
+    container_name: eo-web-api
+    depends_on:
+      - mysql
 
   eo-identity:
     image: myurtsevich/eo-identity:latest
     container_name: eo-identity
 
-  eo-web-api:
-    image: myurtsevich/eo-web-api:latest
-    container_name: eo-web-api
+  eo-scheduler:
+    image: myurtsevich/eo-scheduler:latest
+    container_name: eo-scheduler
+    depends_on:
+      - eo-web-api
 
   eo-web-client:
     image: myurtsevich/eo-web-client:latest
     container_name: eo-web-client
+    depends_on:
+      - eo-web-api
+      - eo-identity
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql

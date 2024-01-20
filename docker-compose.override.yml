@@ -1,16 +1,18 @@
 version: '3.4'
 
 services:
-  eo-scheduler:
+  eo-web-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionStrings__DefaultConnection=${DATABASE_CONNECTION}
-      - Authority=https://host.docker.internal:7010
-      - UseCustomSslCertificates=true
+      - WebOptions__Authority=${DOCKER_DOMAIN}:${AUTHORITY_PORT}
+      - WebOptions__WebClient=${LOCAL_DOMAIN}:${WEB_CLIENT_PORT}
+      - WebOptions__SchedulerClient=${DOCKER_DOMAIN}:${SCHEDULER_PORT}
+      - WebOptions__UseCustomSslCertificates=true
     ports:
-      - "5001:80"
-      - "7001:443"
+      - 5100:80
+      - ${WEB_API_PORT}:443
     volumes:
       - ./src:/app/certificates
 
@@ -19,23 +21,25 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - UseCustomSslCertificates=true
+      - AllowedOrigins__WebClient=${LOCAL_DOMAIN}:${WEB_CLIENT_PORT}
+      - AllowedOrigins__WebApi=${DOCKER_DOMAIN}:${WEB_API_PORT}
+      - AllowedOrigins__SchedulerClient=${DOCKER_DOMAIN}:${SCHEDULER_PORT}
     ports:
-      - "5010:80"
-      - "7010:443"
+      - 5101:80
+      - ${AUTHORITY_PORT}:443
     volumes:
       - ./src:/app/certificates
 
-  eo-web-api:
+  eo-scheduler:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionStrings__DefaultConnection=${DATABASE_CONNECTION}
-      - WebOptions__Authority=https://host.docker.internal:7010
-      - WebOptions__SchedulerClient=https://host.docker.internal:7001
-      - WebOptions__UseCustomSslCertificates=true
+      - Authority=${DOCKER_DOMAIN}:${AUTHORITY_PORT}
+      - UseCustomSslCertificates=true
     ports:
-      - "5000:80"
-      - "7000:443"
+      - "5102:80"
+      - "${SCHEDULER_PORT}:443"
     volumes:
       - ./src:/app/certificates
 
@@ -43,7 +47,14 @@ services:
     build:
       context: .
     environment:
-      - REACT_APP_IDENTITY_SERVER_URL=https://host.docker.internal:7010
-      - REACT_APP_WEB_API_URL=https://host.docker.internal:7000
+      - REACT_APP_WEB_CLIENT_URL=${LOCAL_DOMAIN}:${WEB_CLIENT_PORT}
+      - REACT_APP_WEB_API_URL=${DOCKER_DOMAIN}:${WEB_API_PORT}
+      - REACT_APP_IDENTITY_SERVER_URL=${DOCKER_DOMAIN}:${AUTHORITY_PORT}
     ports:
-      - 3000:3000
+      - ${WEB_CLIENT_PORT}:3000
+
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: Passw0rd
+    ports:
+      - "3307:3306"
